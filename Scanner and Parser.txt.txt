@@ -1,0 +1,25 @@
+%{
+    int num_ints = 0, num_floats = 0, num_ids = 0, num_ops = 0;
+%}
+
+digit       [0-9]
+letter      [a-zA-Z]
+identifier  {letter}({letter}|{digit})*
+integer     {digit}+
+float       {digit}+"."{digit}*
+operator    [+\-*/]
+
+%%
+
+{integer}   { ++num_ints; }
+{float}     { ++num_floats; }
+{identifier} { ++num_ids; }
+{operator}  { ++num_ops; }
+
+%%
+
+int main() {
+    yylex();
+    printf("Integers: %d, Floats: %d, Identifiers: %d, Operators: %d\n", num_ints, num_floats, num_ids, num_ops);
+    return 0;
+}
